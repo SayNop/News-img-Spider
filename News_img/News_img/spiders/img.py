@@ -1,4 +1,5 @@
 import scrapy
+from News_img.items import NewsImgItem
 
 
 class ImgSpider(scrapy.Spider):
@@ -12,4 +13,9 @@ class ImgSpider(scrapy.Spider):
         # 提取数据
         # 获取图片节点
         nodes = response.xpath('//div[@class="TRS_Editor"]/p[1]/font/img')
+
+        item = NewsImgItem()
+        item['link'] = response.urljoin(nodes.xpath('./@src').extract_first())
+        # 测试链接提取是否正常
+        # print(item)
         # 翻页

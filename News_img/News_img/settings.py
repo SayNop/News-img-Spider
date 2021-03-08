@@ -47,9 +47,9 @@ USER_AGENT = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'News_img.middlewares.NewsImgDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   'News_img.middlewares.NewsImgDownloaderMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html

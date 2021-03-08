@@ -2,7 +2,9 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-
+import time
+from scrapy.http import HtmlResponse
+from selenium import webdriver
 from scrapy import signals
 
 # useful for handling different item types with a single interface
@@ -82,6 +84,16 @@ class NewsImgDownloaderMiddleware:
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
+
+        url = request.url
+        driver = webdriver.Chrome()
+        time.sleep(3)
+        driver.get(url)
+        data = driver.page_source
+        driver.close()
+
+        # 创建响应对象
+        response = HtmlResponse(url=url, body=data, encoding='utf-8', request=request)
 
         # Must either;
         # - return a Response object

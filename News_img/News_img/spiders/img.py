@@ -24,11 +24,11 @@ class ImgSpider(scrapy.Spider):
 
         # 翻页id="nexttt"class="f12_fff"
         page_url = response.xpath('//a[@id="nexttt"]/@href').extract_first()
-        print(page_url)
+        # print(page_url)
         # 中止条件
         if page_url != '#':
             next_url = response.urljoin(page_url)
-            print(next_url)
+            # print(next_url)
             # 构建请求对象返回给引擎
             yield scrapy.Request(
                 url=next_url,

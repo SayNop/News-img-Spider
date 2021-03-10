@@ -3,6 +3,7 @@
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import time
+import random
 from scrapy.http import HtmlResponse
 from selenium import webdriver
 from scrapy import signals
@@ -80,20 +81,35 @@ class NewsImgDownloaderMiddleware:
         # - or return a Request object
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
-        return None
+        USER_AGENT = [
+            'Mozilla/4.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/5.0)',
+            'Mozilla/1.22 (compatible; MSIE 10.0; Windows 3.1)',
+            'Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))',
+            'Mozilla/5.0 (Windows; U; MSIE 9.0; Windows NT 9.0; en-US)',
+            'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 7.1; Trident/5.0)'
+        ]
+        user_agent = random.choice(USER_AGENT)
+        request.headers['User-Agent'] = user_agent
+
+        types = request.url.split('.')
+        if types == [] or types[-1] not in ['jpg', 'png']:
+
+            url = request.url
+            driver = webdriver.Chrome()
+            time.sleep(3)
+            driver.get(url)
+            data = driver.page_source
+
+            driver.close()
+
+            # 创建响应对象
+            response = HtmlResponse(url=url, body=data, encoding='utf-8', request=request)
+            return response
+
+
 
     def process_response(self, request, response, spider):
-        # Called with the response returned from the downloader.
 
-        url = request.url
-        driver = webdriver.Chrome()
-        time.sleep(3)
-        driver.get(url)
-        data = driver.page_source
-        driver.close()
-
-        # 创建响应对象
-        response = HtmlResponse(url=url, body=data, encoding='utf-8', request=request)
 
         # Must either;
         # - return a Response object

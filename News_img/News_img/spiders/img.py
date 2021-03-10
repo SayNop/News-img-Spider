@@ -17,6 +17,7 @@ class ImgSpider(scrapy.Spider):
         nodes = response.xpath('//div[@class="TRS_Editor"]//img')
 
         item = NewsImgItem()
+        print(response.urljoin(nodes.xpath('./@src').extract_first()))
         item['link'] = response.urljoin(nodes.xpath('./@src').extract_first())
         # 测试链接提取是否正常
         # print(item)
@@ -38,7 +39,7 @@ class ImgSpider(scrapy.Spider):
         # ***********使用移动端解析*************
         # 提取数据
         # 获取图片节点/html/body/div/div[11]/p[1]/mip-img/img
-        # nodes = response.xpath('//mip-img/img')
+        # nodes = response.xpath('//mip-img//img')
         #
         # for node in nodes:
         #

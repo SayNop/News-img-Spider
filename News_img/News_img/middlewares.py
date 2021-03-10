@@ -92,6 +92,7 @@ class NewsImgDownloaderMiddleware:
         request.headers['User-Agent'] = user_agent
 
         types = request.url.split('.')
+        # 无法截取的链接或者不是图片格式结尾的链接才使用selenium
         if types == [] or types[-1] not in ['jpg', 'png']:
 
             url = request.url
@@ -102,7 +103,7 @@ class NewsImgDownloaderMiddleware:
 
             driver.close()
 
-            # 创建响应对象
+            # 创建selenium处理后的响应对象
             response = HtmlResponse(url=url, body=data, encoding='utf-8', request=request)
             return response
 
